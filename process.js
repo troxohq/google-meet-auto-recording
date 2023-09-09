@@ -63,7 +63,7 @@ javascript: (() => {
         || configActions['Start Recording'].isCompleted(),
       isCheckReady: () => {
         const menuitems = document.querySelectorAll('li[role="menuitem"]');
-        const itemsManageRecording = Array.from(menuitems).filter(menuitem => -1 < menuitem.innerText.indexOf('Manage recording'));
+        const itemsManageRecording = Array.from(menuitems).filter(menuitem => menuitem.innerText.includes('Manage recording'));
         return itemsManageRecording[0];
       },
       actionExecute: itemManageRecording => clickElement(itemManageRecording)
@@ -79,7 +79,7 @@ javascript: (() => {
       actionExecute: btnStartRecording => {
         const options = document.querySelectorAll('ul[role="listbox"][aria-label="Select the language for captions"] li[role="option"');
         const optsCaptions = Array.from(options).filter(option => ('English' === option.innerText));
-        clickElement(optsCaptions[0])
+        clickElement(optsCaptions[0]);
         
         const labels = document.querySelectorAll('label');
         const lblsTranscript = Array.from(labels).filter(label => ('Also start a transcript (English only)' === label.innerText));
@@ -106,37 +106,41 @@ javascript: (() => {
     }
   };
 
-  let intervalBookmarklet = setInterval(() => {
-    console.log('--------------------------');
-    const action = Object.keys(configActions)[0];
-    if (action) {
-      const configAction = configActions[action];
-      if (!configAction.isCompleted()) {
-        const el = configAction.isCheckReady();
-        if (el) {
-          configAction.actionExecute(el);
-        }
-        console.log(action, el ? `"${el.innerText}" clicked` : 'waiting');
-      } else {
-        delete configActions[action];
-      }
-    } else {
-      clearInterval(intervalBookmarklet);
-      
-      const buttons = document.querySelectorAll('button');
-      
-      const btnsCloseRecording = Array.from(buttons).filter(button => 
-        ('close' === button.innerText) && ('Close' === button.getAttribute('aria-label'))
-      );
-      clickElement(btnsCloseRecording[0]);
-      
-      const btnsInfinityIgnore = Array.from(buttons).filter(button => 'Ignore' === button.innerText);
-      clickElement(btnsInfinityIgnore[0]);
+  if (document.location.href.includes('meet.google.com')) {
+	  let intervalBookmarklet = setInterval(() => {
+		console.log('--------------------------');
+		const action = Object.keys(configActions)[0];
+		if (action) {
+		  const configAction = configActions[action];
+		  if (!configAction.isCompleted()) {
+			const el = configAction.isCheckReady();
+			if (el) {
+			  configAction.actionExecute(el);
+			}
+			console.log(action, el ? `"${el.innerText}" clicked` : 'waiting');
+		  } else {
+			delete configActions[action];
+		  }
+		} else {
+		  clearInterval(intervalBookmarklet);
+		  
+		  const buttons = document.querySelectorAll('button');
+		  
+		  const btnsCloseRecording = Array.from(buttons).filter(button => 
+			('close' === button.innerText) && ('Close' === button.getAttribute('aria-label'))
+		  );
+		  clickElement(btnsCloseRecording[0]);
+		  
+		  const btnsInfinityIgnore = Array.from(buttons).filter(button => 'Ignore' === button.innerText);
+		  clickElement(btnsInfinityIgnore[0]);
 
-      const btnsStreamingClose = Array.from(buttons).filter(button => 'Close' === button.innerText);
-      clickElement(btnsStreamingClose[0]);
-      
-      console.log('======== FINISHED ========');
-    }
-  }, 100);
+		  const btnsStreamingClose = Array.from(buttons).filter(button => 'Close' === button.innerText);
+		  clickElement(btnsStreamingClose[0]);
+		  
+		  console.log('======== FINISHED ========');
+		}
+	  }, 100);
+  } else {
+	console.log('======== URL is not a Google Meet (https://meet.google.com) ========')
+  }
 })();
