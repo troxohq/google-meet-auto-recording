@@ -8,7 +8,7 @@ The process of recording a daily video of the work done for a particular day is 
 1. `User` opens the meeting from a **Google Calendar** event *"[Name] - Daily video"*
 1. The **Google Meet** event and recording is started with [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js) via 
     * **Google Chrome Bookmark** (manually by the `User`)
-    * **Google Chrome** Addon** (automatically)
+    * **Google Chrome Addon** (automatically)
 1. The User joins the **Google Meet** event and recording and transcribing are automatically started
 1. **Google Meet** stores the recording and transcription files to **Google Drive**
 1. **Google Meet** automatically sends an email to **Gmail** inbox of the User when the recorded video and its transcription are ready
