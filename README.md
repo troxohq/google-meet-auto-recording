@@ -1,5 +1,5 @@
 # Recording "Daily video" automation
-The process or recording a daily video of the work done for a particular day is an imporant process thus this solution eases the steps necessary to fulfill this requirement.
+The process of recording a daily video of the work done for a particular day is an important process thus this solution eases the steps necessary to fulfill this requirement.
 ![Google Meet Auto Recording](img/google-meet-auto-recording.png)
 
 ## Usage
@@ -8,17 +8,17 @@ The process or recording a daily video of the work done for a particular day is 
 1. The **Google Meet** event and recording is started with [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js) via 
     * **Google Chrome Bookmark** (manually by the `User`)
     * **Google Chrome** Addon** (automatically)
-1. User joins the **Google Meet** event and recording and transcibing is automatically started
+1. The User joins the **Google Meet** event and recording and transcribing are automatically started
 1. **Google Meet** stores the recording and transcription files to **Google Drive**
-1. **Google Meet** automatically sends an email to **Gmail** inbox of the User when recorded video and its transcription are ready
+1. **Google Meet** automatically sends an email to **Gmail** inbox of the User when the recorded video and its transcription are ready
 1. **Gmail** inbox's rule automatically filters the matching *"[Name] - Daily video"* email and forwards it to the inbox of the **Slack** 
  `#channel`
-1. **Slack** shows the message with *"[Name] - Daily video"* recording links to the for the particuler **Google Calendar** event date in the `#channel`
+1. **Slack** shows the message with *"[Name] - Daily video"* recording links to the for the particular **Google Calendar** event date in the `#channel`
 
 ## Installation
 
 ### 1. Reminder configuration
-Create a recurring Google Calender event with a title e.g. *"Nenad - Daily video"* and add Google Meet to this scheduled meeting.
+Create a recurring Google Calendar event with a title e.g. *"Nenad - Daily video"* and add Google Meet to this scheduled meeting.
 
 ![Calendar Event](img/calendar-event.png)
 
@@ -37,7 +37,7 @@ Add the content of the script [process.js](https://github.com/troxohq/google-mee
 	* [InjectCode](https://chrome.google.com/webstore/detail/injectcode/flhghpihapijancfhnicbnjifdodohpi)
 
 ### 3. Slack notification receiver
-Configure **Slack** `#channel` "Integrations" to have a mail inbox to passthrough the messages received via email.
+Configure **Slack** `#channel` "Integrations" to have a mail inbox to pass through the messages received via email.
 
 ![Slack Integrations Emails](img/slack-integrations-emails.png)
 
@@ -52,15 +52,15 @@ Configure Gmail to forward the recording (and transcription) emails to Slack inb
 The target forwarding email needs to be approved by clicking the link from the confirmation message.
 
 ## Remarks
-### English langague only
-The script expects that **Google Meet** operates in English language because the handlers are sensitive to the appearance of the predefined terms in the web page.
+### 1. English langague only
+The script expects that **Google Meet** operates in English because the handlers are sensitive to the appearance of the predefined terms on the web page.
 
-### Permissions
-**Google Drive** folder needs to be shared with people who should watch the video, or permissions should be set for each recording seperately.
+### 2. Permissions
+**Google Drive** folder needs to be shared with people who should watch the video, or permissions should be set for each recording separately.
 
-Potential fix would be a **Google Apps Script** that will automatically either:
+A potential fix would be a **Google Apps Script** that will automatically either:
 * Move *"Daily video"* recordings to another **Google Drive** folder with specified permissions.
-* Or set permissions explicitly per meeting attendies.
+* Or set permissions explicitly per meeting attendees.
 
-### Google Chrome support only
+### 3. Google Chrome support only
 The script is tested only with **Google Chrome** and its **Chrome Addons**.
