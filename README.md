@@ -1,9 +1,16 @@
 # Recording "Daily video" automation
 The process of recording a daily video of the work done for a particular day is an important process thus this solution eases the steps necessary to fulfill this requirement.
 
-![](img/google-meet-auto-recording.png)
-
 ## Usage
+1. `User` joins the meeting from a **Google Calendar** event *"[Name] - Daily video"*
+1. `User` manually clicks the **Google Chrome Bookmark** to start the recording or it is already configured automatically via **Google Chrome Addon**
+1. The User selects which screen to present in the **Google Meet**
+
+After these 2 or 3 steps, the **Google Meet** is started, with a screen to present, recorded and transcribed (for a seachable text content), uploaded to **Google Drive**, informed via **Gmail**, and notified others on **Slack** `#channel`.
+
+## Details
+
+![](img/google-meet-auto-recording.png)
 1. **Google Calendar** notifies the User to record *"[Name] - Daily video"*
 1. `User` opens the meeting from a **Google Calendar** event *"[Name] - Daily video"*
 1. The **Google Meet** event and recording is started with [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js) via
@@ -43,7 +50,12 @@ Add the content of the script [process.js](https://github.com/troxohq/google-mee
 
 ![Chrome Addon](img/chrome-addon.png)
 
-### 3. Slack notification receiver
+### 3. Google Drive recordings permission
+The **Google Meet** video and transcription recordings are stored in a `User` **Google Drive** folder `Meet Transcript`:
+
+![](img/google-drive-folder-permissions.png)
+
+### 4. Slack notification receiver
 Configure **Slack** `#channel` "Integrations" to have a mail inbox to pass through the messages received via email.
 
 ![](img/slack-integrations-emails.png)
@@ -53,7 +65,7 @@ Configure "Customize  Email Appearance" to look like this:
 ![](img/slack-channel-message.png)
 
 
-### 4. Gmail notification sender
+### 5. Gmail notification sender
 Configure Gmail to forward the recording (and transcription) emails to Slack inbox and optionally apply a separate label.
 
 ![](img/gmail-filter-source.png)
