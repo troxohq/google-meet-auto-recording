@@ -56,7 +56,7 @@ The **Google Meet** video and transcription recordings are stored in a `User` **
 ![](img/google-drive-folder-permissions.png)
 
 ### 4. Slack notification receiver
-Configure **Slack** `#channel` "Integrations" to have a mail inbox to pass through the messages received via email.
+Configure **Slack** `#channel` => "Integrations" => "Send emails to this channel" to receive the emails to pass them through as messages to a channel.
 
 ![](img/slack-integrations-emails.png)
 
