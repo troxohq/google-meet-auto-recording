@@ -1,5 +1,5 @@
 javascript: (() => {
-  /** 
+  /**
    * A configuration for Chrome Addon auto start vs the manual usage via bookmarklet
    * Set to NULL/false/"" for the manual usage
    * Set to the Google Meet term matching for the auto start, e.g. "Daily video"
@@ -93,13 +93,13 @@ javascript: (() => {
         const options = document.querySelectorAll('ul[role="listbox"][aria-label="Select the language for captions"] li[role="option"');
         const optsCaptions = Array.from(options).filter(option => ('English' === option.innerText));
         clickElement(optsCaptions[0]);
-        
+
         const labels = document.querySelectorAll('label');
         const lblsTranscript = Array.from(labels).filter(label => ('Also start a transcript (English only)' === label.innerText));
         const cboxTranscriptID = lblsTranscript[0].getAttribute('for');
         const cboxTranscript = document.getElementById(cboxTranscriptID);
         clickElement(cboxTranscript);
-        
+
         clickElement(btnStartRecording);
       }
     },
@@ -119,14 +119,14 @@ javascript: (() => {
     }
   };
 
-  // Trigger recording only for Google Meet URLs
+  /* Trigger recording only for Google Meet URLs */
   if (document.location.href.includes('meet.google.com')) {
 	  const start = Date.now();
-    // Start an interval to execute for actions from a configuration list 
+    /* Start an interval to execute for actions from a configuration list  */
     const intervalActionExecute = setInterval(() => {
-      // Automatic Google Meet "autoStartRecordingFor" recording start via some e.g. Chrome addon
+      /* Automatic Google Meet "autoStartRecordingFor" recording start via some e.g. Chrome addon */
       if (autoStartRecordingFor && !document.title.includes(autoStartRecordingFor)) {
-        // Wait for 5s that "autoStartRecordingFor" appears
+        /* Wait for 5s that "autoStartRecordingFor" appears */
         if ((Date.now() - start) > 5000) {
           clearInterval(intervalActionExecute);
           console.log(`Missing "${autoStartRecordingFor}" title. Auto recording cancelled.`);
@@ -137,42 +137,42 @@ javascript: (() => {
   	  }
 
   	  console.log('--------------------------');
-      // Execute action sequentially - previous action is finished if removed from the configuration
+      /* Execute action sequentially - previous action is finished if removed from the configuration */
   	  const action = Object.keys(configActions)[0];
   	  if (action) {
-        // Start the action handler from the next one in the execution list
+        /* Start the action handler from the next one in the execution list */
   	    const configAction = configActions[action];
   	    if (!configAction.isCompleted()) {
-          // If action is not completed and is ready, trigget the execution
+          /* If action is not completed and is ready, trigget the execution */
           const el = configAction.isCheckReady();
           if (el) {
             configAction.actionExecute(el);
           }
           console.log(action, el ? `"${el.innerText}" clicked` : 'waiting');
   	    } else {
-          // Remove completed actions from an execution list
+          /* Remove completed actions from an execution list */
   	  	  delete configActions[action];
   	    }
   	  } else {
-        // If all actions are finished, stop the interval for executing actions
+        /* If all actions are finished, stop the interval for executing actions */
   	    clearInterval(intervalActionExecute);
-  	    
+
   	    const buttons = document.querySelectorAll('button');
 
-        // Close the recording sidebar
-  	    const btnsCloseRecording = Array.from(buttons).filter(button => 
+        /* Close the recording sidebar */
+  	    const btnsCloseRecording = Array.from(buttons).filter(button =>
   	  	  ('close' === button.innerText) && ('Close' === button.getAttribute('aria-label'))
   	    );
   	    clickElement(btnsCloseRecording[0]);
-  	    
-        // Close the infinity mirror warning (if exists)
+
+        /* Close the infinity mirror warning (if exists) */
   	    const btnsInfinityIgnore = Array.from(buttons).filter(button => 'Ignore' === button.innerText);
   	    clickElement(btnsInfinityIgnore[0]);
-	  
-  	    // Close the streaming warning (if exists)
+
+  	    /* Close the streaming warning (if exists) */
         const btnsStreamingClose = Array.from(buttons).filter(button => 'Close' === button.innerText);
   	    clickElement(btnsStreamingClose[0]);
-  	    
+
   	    console.log('======== FINISHED ========');
   	  }
     }, 100);
