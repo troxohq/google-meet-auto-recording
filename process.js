@@ -4,7 +4,13 @@ javascript: (() => {
       document.body.click.apply(element);
     }
   };
-
+  /**
+   * Configuration of actions to auto start Google Meet recordings
+   * Actions are started in a hronological order - previous action need to be completed before the next actions
+   * isCompleted() - Check if an action has finished successfully
+   * isCheckReady() - Check if an action can be executed
+   * actionExecute() - Trigger the action
+   */
   const configActions = {
     'Join Meeting': {
       isCompleted: () => !document.body.innerText.includes('Getting ready') && !document.body.innerText.includes('Join now'),
@@ -106,41 +112,65 @@ javascript: (() => {
     }
   };
 
+  // Trigger recording only for Google Meet URLs
   if (document.location.href.includes('meet.google.com')) {
-	  let intervalBookmarklet = setInterval(() => {
-		console.log('--------------------------');
-		const action = Object.keys(configActions)[0];
-		if (action) {
-		  const configAction = configActions[action];
-		  if (!configAction.isCompleted()) {
-			const el = configAction.isCheckReady();
-			if (el) {
-			  configAction.actionExecute(el);
-			}
-			console.log(action, el ? `"${el.innerText}" clicked` : 'waiting');
-		  } else {
-			delete configActions[action];
-		  }
-		} else {
-		  clearInterval(intervalBookmarklet);
-		  
-		  const buttons = document.querySelectorAll('button');
-		  
-		  const btnsCloseRecording = Array.from(buttons).filter(button => 
-			('close' === button.innerText) && ('Close' === button.getAttribute('aria-label'))
-		  );
-		  clickElement(btnsCloseRecording[0]);
-		  
-		  const btnsInfinityIgnore = Array.from(buttons).filter(button => 'Ignore' === button.innerText);
-		  clickElement(btnsInfinityIgnore[0]);
+	  const start = Date.now();
+    // Start an interval to execute for actions from a configuration list 
+    const intervalActionExecute = setInterval(() => {
+      // Automatic Google Meet "Daily video" recording start via some e.g. Chrome addon
+      if (!document.title.includes('Daily video')) {
+        // Wait for 5s that "Daily video" appears
+        if ((Date.now() - start) > 5000) {
+          clearInterval(intervalActionExecute);
+          console.log('Missing "Daily video" title. Auto recording cancelled.');
+        } else {
+          console.log('Waiting for "Daily video" title...');
+        }
+  	  	return;
+  	  }
+  	  // Comment out the previous section for a manual script start as a bookmarklet
 
-		  const btnsStreamingClose = Array.from(buttons).filter(button => 'Close' === button.innerText);
-		  clickElement(btnsStreamingClose[0]);
-		  
-		  console.log('======== FINISHED ========');
-		}
-	  }, 100);
+  	  console.log('--------------------------');
+      // Execute action sequentially - previous action is finished if removed from the configuration
+  	  const action = Object.keys(configActions)[0];
+  	  if (action) {
+        // Start the action handler from the next one in the execution list
+  	    const configAction = configActions[action];
+  	    if (!configAction.isCompleted()) {
+          // If action is not completed and is ready, trigget the execution
+          const el = configAction.isCheckReady();
+          if (el) {
+            configAction.actionExecute(el);
+          }
+          console.log(action, el ? `"${el.innerText}" clicked` : 'waiting');
+  	    } else {
+          // Remove completed actions from an execution list
+  	  	  delete configActions[action];
+  	    }
+  	  } else {
+        // If all actions are finished, stop the interval for executing actions
+  	    clearInterval(intervalActionExecute);
+  	    
+  	    const buttons = document.querySelectorAll('button');
+
+        // Close the recording sidebar
+  	    const btnsCloseRecording = Array.from(buttons).filter(button => 
+  	  	  ('close' === button.innerText) && ('Close' === button.getAttribute('aria-label'))
+  	    );
+  	    clickElement(btnsCloseRecording[0]);
+  	    
+        // Close the infinity mirror warning (if exists)
+  	    const btnsInfinityIgnore = Array.from(buttons).filter(button => 'Ignore' === button.innerText);
+  	    clickElement(btnsInfinityIgnore[0]);
+	  
+  	    // Close the streaming warning (if exists)
+        const btnsStreamingClose = Array.from(buttons).filter(button => 'Close' === button.innerText);
+  	    clickElement(btnsStreamingClose[0]);
+  	    
+  	    console.log('======== FINISHED ========');
+  	  }
+    }, 100);
   } else {
-	console.log('======== URL is not a Google Meet (https://meet.google.com) ========')
+	  console.log('======== URL is not a Google Meet (https://meet.google.com) ========')
   }
 })();
