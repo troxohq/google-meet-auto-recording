@@ -3,10 +3,10 @@ The process of recording a daily video of the work done for a particular day is 
 
 ## Usage
 1. `User` joins the meeting from a **Google Calendar** event *"[Name] - Daily video"*
-1. `User` manually clicks the **Google Chrome Bookmark** to start the recording or it is already configured automatically via **Google Chrome Addon**
+1. `User` manually clicks the **Google Chrome Bookmark** to start the recording or it is already configured to run automatically via **Google Chrome Addon**
 1. The User selects which screen to present in the **Google Meet**
 
-The result of these 2 or 3 steps is that **Google Meet** is started, with a screen to present, the video is recorded, the audio is transcribed (for a seachable text content), recording and transcription are uploaded to **Google Drive**, with uploaded links sent to **Gmail** and to **Slack** `#channel`.
+The result of these few clicks is that **Google Meet** is started, with a screen to present, the video is recorded, the audio is transcribed (for a seachable text content), recording and transcription are uploaded to **Google Drive**, with uploaded links sent to **Gmail** and to **Slack** `#channel`.
 
 ## Details
 
