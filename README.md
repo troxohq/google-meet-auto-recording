@@ -1,7 +1,7 @@
 # Recording "Daily video" automation
 The process of recording a daily video of the work done for a particular day is an important process thus this solution eases the steps necessary to fulfill this requirement.
 
-<img alt="Google Meet Auto Recording" src="img/google-meet-auto-recording.png" width="80%">
+![](img/google-meet-auto-recording.png)
 
 ## Usage
 1. **Google Calendar** notifies the User to record *"[Name] - Daily video"*
@@ -45,17 +45,26 @@ Add the content of the script [process.js](https://github.com/troxohq/google-mee
 ### 3. Slack notification receiver
 Configure **Slack** `#channel` "Integrations" to have a mail inbox to pass through the messages received via email.
 
-<img alt="Slack Integrations Emails" src="https://github.com/troxohq/google-meet-auto-recording/raw/main/img/slack-integrations-emails.png" width="60%">
+![](img/slack-integrations-emails.png)
 
 Configure "Customize  Email Appearance" to look like this:
 
-<img alt="Slack Channel Message" src="https://github.com/troxohq/google-meet-auto-recording/raw/main/img/slack-channel-message.png" width="60%">
+![](img/slack-channel-message.png)
+
 
 ### 4. Gmail notification sender
 Configure Gmail to forward the recording (and transcription) emails to Slack inbox and optionally apply a separate label.
 
-<img alt="Gmail Filter Source" src="img/gmail-filter-source.png" width="60%">
-<img alt="Gmail Filter Target" src="img/gmail-filter-target.png" width="60%">
+![](img/gmail-filter-source.png)
+
+![](img/gmail-filter-target.png)
+
+![](img/gmail-forwarding-address.png)
+
+![](img/gmail-forwarding-confirmation.png)
+
+![](img/gmail-forwarding-verification.png)
+
 
 The target forwarding email needs to be approved by clicking the link from the confirmation message.
 
