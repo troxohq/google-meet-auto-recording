@@ -73,12 +73,17 @@ The target forwarding email needs to be approved by clicking the link in from th
 ### 1. English language only
 The script expects that **Google Meet** operates in English because the handlers are sensitive to the appearance of the predefined terms on the web page.
 
-### 2. Permissions
+### 2. Script deployment
+The installation of the script content is deployed manually by the user - either in a **Google Chrome Bookmarklet** or in the **Google Chrome Addon**.
+
+To ease the development and deployment cycles, the script content can be dynamically loaded to the **Google Chrome Addon** by loading the script content via AJAX and adding it to the `<html><script>...</script></html>` tag. This approach will not work for **Google Chrome Bookmarklet** because of the browser security restrictions
+
+### 3. Permissions
 **Google Drive** folder needs to be shared with people who should watch the video, or permissions should be set for each recording separately.
 
 A potential fix would be a **Google Apps Script** that will automatically either:
 * Move *"Daily video"* recordings to another **Google Drive** folder with specified permissions.
 * Or set permissions explicitly per meeting attendees.
 
-### 3. Google Chrome support only
+### 4. Google Chrome support only
 The script is tested only with **Google Chrome** and its **Chrome Addons**.
