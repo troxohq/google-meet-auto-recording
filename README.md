@@ -66,7 +66,7 @@ Configure Gmail to forward the recording (and transcription) emails to Slack inb
 ![](img/gmail-forwarding-verification.png)
 
 
-The target forwarding email needs to be approved by clicking the link from the confirmation message.
+The target forwarding email needs to be approved by clicking the link in from the confirmation message sent to **Slack** `#channel`.
 
 ## Remarks
 ### 1. English language only
