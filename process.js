@@ -110,7 +110,7 @@ javascript: (() => {
 
   /* Trigger recording only for Google Meet URLs */
   if (document.location.href.includes('meet.google.com')) {
-      const start = Date.now();
+    const start = Date.now();
     /* Start an interval to execute for actions from a configuration list  */
     const intervalActionExecute = setInterval(() => {
       try {
