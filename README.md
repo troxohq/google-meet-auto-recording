@@ -54,6 +54,7 @@ Add the content of the script [process.js](https://github.com/troxohq/google-mee
 
 ### 3. Google Drive recordings permission
 The **Google Meet** video and transcription recordings are stored in a `User` **Google Drive** folder `Meet Transcript`:
+  * Share this folder with relevant people who will have access to all recordings
 
 ![](img/google-drive-folder-permissions.png)
 
