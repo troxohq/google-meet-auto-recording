@@ -85,12 +85,14 @@ The target forwarding email needs to be approved by clicking the link in from th
 ### 1. English language only
 The script expects that **Google Meet** operates in English because the handlers are sensitive to the appearance of the predefined terms on the web page.
 
-### 2. Script deployment
-The installation of the script content is deployed manually by the user - either in a **Google Chrome Bookmarklet** or in the **Google Chrome Addon**.
+The default setup expects that the **Google Calendar** event has a *"Daily video"* in its title since the code by default will rely on its existence (can be changed in JS content for **Google Chrome Bookmarklet** or **Google Chrome Addon**). The additional recording explanation can be added to that event title for the particular day only.
+
+### 2. Script deployment improvements
+The script content is deployed manually by the user - either in a **Google Chrome Bookmarklet** or in the **Google Chrome Addon**.
 
 To ease the development and deployment cycles, the script content can be dynamically loaded to the **Google Chrome Addon** by loading the script content via AJAX and adding it to the `<html><script>...</script></html>` tag. This approach will not work for **Google Chrome Bookmarklet** because of the browser security restrictions
 
-### 3. Permissions
+### 3. Permissions improvements
 **Google Drive** folder needs to be shared with people who should watch the video, or permissions should be set for each recording separately.
 
 A potential fix would be a **Google Apps Script** that will automatically either:
