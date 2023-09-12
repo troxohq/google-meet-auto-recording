@@ -1,11 +1,4 @@
 javascript: (() => {
-  /**
-   * A configuration for Chrome Addon auto start vs the manual usage via bookmarklet
-   * Set to NULL/false/"" for the manual usage
-   * Set to the Google Meet term matching for the auto start, e.g. "Daily video"
-   */
-  const autoStartRecordingFor = 'Daily video';
-
   const clickElement = (element) => {
     if (element) {
       document.body.click.apply(element);
@@ -114,8 +107,11 @@ javascript: (() => {
     /* Start an interval to execute for actions from a configuration list  */
     const intervalActionExecute = setInterval(() => {
       try {
-        /* Automatic Google Meet "autoStartRecordingFor" recording start via some e.g. Chrome addon */
-        if (autoStartRecordingFor && !document.title.includes(autoStartRecordingFor)) {
+        /* Automatic Google Meet "autoStartRecordingFor" recording start via some e.g. Chrome addon
+         * It is undefined for the manual usage via bookmarklet
+         * Set to the Google Meet term matching for the auto start, e.g. "Daily video"
+         */
+        if (('undefined' !== typeof(autoStartRecordingFor)) && !document.title.includes(autoStartRecordingFor)) {
           /* Wait for 5s that "autoStartRecordingFor" appears */
           if ((Date.now() - start) > 5000) {
             clearInterval(intervalActionExecute);
