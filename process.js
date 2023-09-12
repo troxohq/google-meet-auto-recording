@@ -83,7 +83,12 @@ javascript: (() => {
     },
     'Start Recording': {
       isCompleted: () => document.body.innerText.includes('Make sure everyone is ready')
-        || configActions['Confirm Recording'].isCompleted(),
+        || document.body.innerText.includes('Stop recording')
+        || document.body.innerText.includes('Recording is starting')
+        || document.body.innerText.includes('Recording will start soon')
+        || document.body.innerText.includes('Transcribing')
+        || document.body.innerText.includes('This call is being recorded')
+        || document.body.innerText.includes('This call is being transcribed'),
       isCheckReady: () => {
         const buttons = document.querySelectorAll('button[aria-label="Start recording"]');
         const btnsStartRecording = Array.from(buttons).filter(button => ('Start recording' === button.innerText));
@@ -102,20 +107,6 @@ javascript: (() => {
 
         clickElement(btnStartRecording);
       }
-    },
-    'Confirm Recording': {
-      isCompleted: () => document.body.innerText.includes('Stop recording')
-        || document.body.innerText.includes('Recording is starting')
-        || document.body.innerText.includes('Recording will start soon')
-        || document.body.innerText.includes('Transcribing')
-        || document.body.innerText.includes('This call is being recorded')
-        || document.body.innerText.includes('This call is being transcribed'),
-      isCheckReady: () => {
-        const buttons = document.querySelectorAll('button');
-        const btnsConfirmRecording = Array.from(buttons).filter(button => ('Start' === button.innerText));
-        return btnsConfirmRecording[0];
-      },
-      actionExecute: btnConfirmRecording => clickElement(btnConfirmRecording)
     }
   };
 
@@ -172,6 +163,10 @@ javascript: (() => {
   	    /* Close the streaming warning (if exists) */
         const btnsStreamingClose = Array.from(buttons).filter(button => 'Close' === button.innerText);
   	    clickElement(btnsStreamingClose[0]);
+
+        /* Close warning if everyone is ready (if exists) */
+        const btnsConfirmIsReady = Array.from(buttons).filter(button => ('Start' === button.innerText));
+        clickElement(btnsConfirmIsReady[0]);
 
   	    console.log('======== FINISHED ========');
   	  }
