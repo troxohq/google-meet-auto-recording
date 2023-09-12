@@ -11,7 +11,7 @@ xhr.open('GET', scriptURL, true);
 xhr.onreadystatechange = function() {
   if ((4 === xhr.readyState) && (200 === xhr.status)) {
     var scriptElement = document.createElement('script');
-    scriptElement.textContent = xhr.responseText;
+    scriptElement.textContent = `const autoStartRecordingFor = '${autoStartRecordingFor}'; ${xhr.responseText}`;
     document.body.appendChild(scriptElement);
   }
 };
