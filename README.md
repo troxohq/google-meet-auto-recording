@@ -13,6 +13,7 @@ The result of these 2 or 3 steps is that **Google Meet** is started, with a scre
 ![](img/google-meet-auto-recording.png)
 1. **Google Calendar** notifies the User to record *"[Name] - Daily video"*
 1. `User` opens the meeting from a **Google Calendar** event *"[Name] - Daily video"*
+    1. Optionally, add an additional recap of the particular day to the event title
 1. The **Google Meet** event and recording is started with [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js) via
     1. **Google Chrome Bookmark** (manually by the `User`)
     1. **Google Chrome Addon** (automatically)
