@@ -69,7 +69,7 @@ Configure "Customize  Email Appearance" to look like this:
 
 
 ### 5. Gmail notification sender
-Configure Gmail to forward the recording (and transcription) emails to Slack inbox and optionally apply a separate label.
+Configure Gmail to forward the recording (and transcription) emails to Slack inbox and optionally apply a separate label at https://mail.google.com/#settings/filters => `Create a new filter`.
 
 ![](img/gmail-filter-source.png)
 
