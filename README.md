@@ -69,7 +69,14 @@ Configure "Customize  Email Appearance" to look like this:
 
 
 ### 5. Gmail notification sender
-Configure Gmail to forward the recording (and transcription) emails to Slack inbox and optionally apply a separate label.
+Configure Gmail to forward the recording (and transcription) emails to Slack inbox and optionally apply a separate label:
+1. Open https://mail.google.com/#settings/filters
+2. Click `Create a new filter`
+3. Set `From` to "meet-recordings-noreply@google.com"
+4. Set `Subject` to "Daily video"
+5. Click `Continue`
+6. Set `Forward it to` to the email address connected to the **Slack** `#channel`
+7. Check optionally `Skip the Inbox (Archive it)`, `Mark as read`, or `Apply the label:` 
 
 ![](img/gmail-filter-source.png)
 
