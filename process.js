@@ -1,4 +1,11 @@
 javascript: (() => {
+  const autoStartRecordingFor = 'Daily video';
+  /**
+   * Automatic Google Meet "autoStartRecordingFor" recording start via some e.g. Chrome addon
+   * Leave undefined for the manual usage via bookmarklet
+   * Set to the Google Meet term matching for the auto start, e.g. "Daily video"
+   */
+
   const clickElement = (element) => {
     if (element) {
       document.body.click.apply(element);
