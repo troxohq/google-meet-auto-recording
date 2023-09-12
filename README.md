@@ -14,14 +14,14 @@ The result of these few clicks is that **Google Meet** is started, with a screen
 1. **Google Calendar** notifies the User to record *"[Name] - Daily video"*
 1. `User` opens the meeting from a **Google Calendar** event *"[Name] - Daily video"*
     1. Optionally, add an additional recap of the particular day to the event title
-1. The **Google Meet** event and recording is started with [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js) via
-    1. **Google Chrome Bookmark** (manually by the `User`)
-    1. **Google Chrome Addon** (automatically)
-1. The User joins the **Google Meet** event and recording and transcribing are automatically started
+2. The **Google Meet** event and recording is started with:
+    1. **Google Chrome Bookmark** (manually by the `User`) via [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js)
+    2. **Google Chrome Addon** (automatically) via [loader.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/loader.js)
+3. The User joins the **Google Meet** event and recording and transcribing are automatically started
    1. The User selects which screen to present in the **Google Meet**
-1. **Google Meet** stores the recording and transcription files to **Google Drive**
-1. **Google Meet** automatically sends an email to **Gmail** inbox of the User when the recorded video and its transcription are ready
-1. **Gmail** inbox's rule automatically filters the matching *"[Name] - Daily video"* email and forwards it to the inbox of the **Slack**
+4. **Google Meet** stores the recording and transcription files to **Google Drive**
+5. **Google Meet** automatically sends an email to **Gmail** inbox of the User when the recorded video and its transcription are ready
+6. **Gmail** inbox's rule automatically filters the matching *"[Name] - Daily video"* email and forwards it to the inbox of the **Slack**
  `#channel`
 1. **Slack** shows the message with *"[Name] - Daily video"* recording links to the for the particular **Google Calendar** event date in the `#channel`
 
@@ -37,13 +37,13 @@ Create a recurring Google Calendar event (each workday at e.g. 17:00) with a tit
 #### Option 1: Manually start any recording
 Add the content of the script [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js) to the
 **Google Chrome** bookmark (i.e. bookmarklet)
-  * Configure `autoStartRecordingFor` to `false` at [process.js#L7](https://github.com/troxohq/google-meet-auto-recording/blob/c79aeac4eaa191543e492fe1dbb7e465e4a0d510/process.js#L7) to allow recording of any Google Calendar event, not only e.g. *"Daily video"*
+  * Leave `autoStartRecordingFor` as `undefined` at [process.js#L2](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js#L2) to allow recording of any Google Calendar event, not only e.g. *"Daily video"*
 
 ![Chrome Bookmark](img/chrome-bookmark.png)
 
 #### Option 2: Automatically start a *"Daily video"* recording
-Add the content of the script [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js) to the **Chrome Addon** that injects and executes JavaScript code:
-  * Configure `autoStartRecordingFor` at [process.js#L7](https://github.com/troxohq/google-meet-auto-recording/blob/c79aeac4eaa191543e492fe1dbb7e465e4a0d510/process.js#L7) to match the Google Calendar event title, e.g. *"Daily video"*
+Add the content of the script [loader.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/loader.js) to the **Chrome Addon** that injects and executes JavaScript code:
+  * Configure `autoStartRecordingFor` at [loader.js#L1](https://github.com/troxohq/google-meet-auto-recording/blob/main/loader.js#L1) to match the Google Calendar event title, e.g. *"Daily video"*
   * Addons that can be used:
      * [Chrome Addon - User JavaScript and CSS](https://chrome.google.com/webstore/detail/user-javascript-and-css/nbhcbdghjpllgmfilhnhkllmkecfmpld)
      * [JScript tricks](https://chrome.google.com/webstore/detail/jscript-tricks/odialddippdmebbfbflcneemfdglimod)
@@ -76,7 +76,7 @@ Configure Gmail to forward the recording (and transcription) emails to Slack inb
 4. Set `Subject` to "Daily video"
 5. Click `Continue`
 6. Set `Forward it to` to the email address connected to the **Slack** `#channel`
-7. Check optionally `Skip the Inbox (Archive it)`, `Mark as read`, or `Apply the label:` 
+7. Check optionally `Skip the Inbox (Archive it)`, `Mark as read`, or `Apply the label:`
 
 ![](img/gmail-filter-source.png)
 
