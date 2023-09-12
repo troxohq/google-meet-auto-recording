@@ -27,7 +27,7 @@ The result of these 2 or 3 steps is that **Google Meet** is started, with a scre
 ## Installation
 
 ### 1. Reminder configuration
-Create a recurring Google Calendar event with a title e.g. *"Nenad - Daily video"* and add Google Meet to this scheduled meeting.
+Create a recurring Google Calendar event (each workday at e.g. 17:00) with a title e.g. *"Nenad - Daily video"* and add Google Meet to this scheduled meeting.
 
 ![Calendar Event](img/calendar-event.png)
 
@@ -36,12 +36,13 @@ Create a recurring Google Calendar event with a title e.g. *"Nenad - Daily video
 #### Option 1: Manually start any recording
 Add the content of the script [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js) to the
 **Google Chrome** bookmark (i.e. bookmarklet)
+  * Configure `autoStartRecordingFor` to `false` at [process.js#L7](https://github.com/troxohq/google-meet-auto-recording/blob/c79aeac4eaa191543e492fe1dbb7e465e4a0d510/process.js#L7) to allow recording of any Google Calendar event, not only e.g. *"Daily video"*
 
 ![Chrome Bookmark](img/chrome-bookmark.png)
 
 #### Option 2: Automatically start a *"Daily video"* recording
-Add the content of the script [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js) to the **Chrome Addon** that injects and executes JavaScript code
-  * Configure `autoStartRecordingFor` at [process.js#L7](https://github.com/troxohq/google-meet-auto-recording/blob/c79aeac4eaa191543e492fe1dbb7e465e4a0d510/process.js#L7) to match the Google Calendar event title, e.g. *"Daily video"*.
+Add the content of the script [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js) to the **Chrome Addon** that injects and executes JavaScript code:
+  * Configure `autoStartRecordingFor` at [process.js#L7](https://github.com/troxohq/google-meet-auto-recording/blob/c79aeac4eaa191543e492fe1dbb7e465e4a0d510/process.js#L7) to match the Google Calendar event title, e.g. *"Daily video"*
   * Addons that can be used:
      * [Chrome Addon - User JavaScript and CSS](https://chrome.google.com/webstore/detail/user-javascript-and-css/nbhcbdghjpllgmfilhnhkllmkecfmpld)
      * [JScript tricks](https://chrome.google.com/webstore/detail/jscript-tricks/odialddippdmebbfbflcneemfdglimod)
