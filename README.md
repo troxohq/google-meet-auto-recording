@@ -11,17 +11,18 @@ The result of these few clicks is that **Google Meet** is started, with a screen
 ## Details
 
 ![](img/google-meet-auto-recording.png)
+
 1. **Google Calendar** notifies the User to record *"[Name] - Daily video"*
-1. `User` opens the meeting from a **Google Calendar** event *"[Name] - Daily video"*
+2. `User` opens the meeting from a **Google Calendar** event *"[Name] - Daily video"*
     1. Optionally, add an additional recap of the particular day to the event title
-2. The **Google Meet** event and recording is started with:
+3. The **Google Meet** event and recording is started with:
     1. **Google Chrome Bookmark** (manually by the `User`) via [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js)
     2. **Google Chrome Addon** (automatically) via [loader.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/loader.js)
-3. The User joins the **Google Meet** event and recording and transcribing are automatically started
+4. The User joins the **Google Meet** event and recording and transcribing are automatically started
    1. The User selects which screen to present in the **Google Meet**
-4. **Google Meet** stores the recording and transcription files to **Google Drive**
-5. **Google Meet** automatically sends an email to **Gmail** inbox of the User when the recorded video and its transcription are ready
-6. **Gmail** inbox's rule automatically filters the matching *"[Name] - Daily video"* email and forwards it to the inbox of the **Slack**
+5. **Google Meet** stores the recording and transcription files to **Google Drive**
+6. **Google Meet** automatically sends an email to **Gmail** inbox of the User when the recorded video and its transcription are ready
+7. **Gmail** inbox's rule automatically filters the matching *"[Name] - Daily video"* email and forwards it to the inbox of the **Slack**
  `#channel`
 1. **Slack** shows the message with *"[Name] - Daily video"* recording links to the for the particular **Google Calendar** event date in the `#channel`
 
