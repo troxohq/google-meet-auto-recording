@@ -1,9 +1,9 @@
 javascript: (() => {
-  /* const autoStartRecordingFor = 'Daily video'; */
+  let recordOnlyIfIncludes = ('undefined' === typeof(recordOnlyIfIncludes)) ? '' : recordOnlyIfIncludes;
+	let useCamera = ('undefined' === typeof(useCamera)) ? true : useCamera;
   /**
-   * Automatic Google Meet "autoStartRecordingFor" recording start via some e.g. Chrome addon
-   * Leave undefined for the manual usage via bookmarklet
-   * Set to the Google Meet term matching for the auto start, e.g. "Daily video"
+   * Record if Google Meet title includes "recordOnlyIfIncludes" value or leave empty for any
+	 * Turn Camera ON/OFF if "useCamera" is true/false (default is true => ON)
    */
 
   const clickElement = (element) => {
@@ -34,16 +34,16 @@ javascript: (() => {
       }
       },
     'Camera ON': {
-      isCompleted: () => document.body.innerText.includes('Turn off camera'),
+      isCompleted: () => !useCamera || document.body.innerText.includes('Turn off camera'),
       clickExecuteOn: () => {
         const btnsCamera = document.querySelectorAll('button[role="button"][aria-label*="Turn on camera"]');
         return btnsCamera[0];
       }
     },
     'Camera OFF': {
-      isCompleted: () => 1 || document.body.innerText.includes('Turn on camera'),
+      isCompleted: () => useCamera || document.body.innerText.includes('Turn on camera'),
       clickExecuteOn: () => {
-        const btnsCamera = document.querySelectorAll('button[role="button"][aria-label*="Turn on camera"]');
+        const btnsCamera = document.querySelectorAll('button[role="button"][aria-label*="Turn off camera"]');
         return btnsCamera[0];
       }
     },
@@ -114,17 +114,14 @@ javascript: (() => {
     /* Start an interval to execute for actions from a configuration list  */
     const intervalActionExecute = setInterval(() => {
       try {
-        /* Automatic Google Meet "autoStartRecordingFor" recording start via some e.g. Chrome addon
-         * It is undefined for the manual usage via bookmarklet
-         * Set to the Google Meet term matching for the auto start, e.g. "Daily video"
-         */
-        if (('undefined' !== typeof(autoStartRecordingFor)) && !document.title.includes(autoStartRecordingFor)) {
-          /* Wait for 5s that "autoStartRecordingFor" appears */
+        /* Record if Google Meet title includes "recordOnlyIfIncludes" value if not empty */
+        if (recordOnlyIfIncludes && !document.title.includes(recordOnlyIfIncludes)) {
+          /* Wait for 5s that "recordOnlyIfIncludes" appears */
           if ((Date.now() - start) > 5000) {
             clearInterval(intervalActionExecute);
-            console.log(`Missing "${autoStartRecordingFor}" title. Auto recording cancelled.`);
+            console.log(`Missing "${recordOnlyIfIncludes}" title. Auto recording cancelled.`);
           } else {
-            console.log(`Waiting for "${autoStartRecordingFor}" title...`);
+            console.log(`Waiting for "${recordOnlyIfIncludes}" title...`);
           }
           return;
         }
