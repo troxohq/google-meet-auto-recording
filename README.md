@@ -13,8 +13,8 @@ The result of these few clicks is that **Google Meet** is started, with a screen
 ![](img/google-meet-auto-recording.png)
 
 1. **Google Calendar** notifies the User to record *"[Name] - Daily video"*
-2. `User` opens the meeting from a **Google Calendar** event *"[Name] - Daily video"*
-    1. Optionally, add an additional recap of the particular day to the event title
+2. `User` opens the meeting from a **Google Calendar** event *"[Name] - Daily video"* with `"Join with Google Meet"`
+    1. Optionally, add an additional recap for the particular day to the event title
 3. The **Google Meet** event and recording is started with:
     1. **Google Chrome Bookmark** (manually by the `User`) via [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js)
     2. **Google Chrome Addon** (automatically) via [loader.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/loader.js)
@@ -29,7 +29,7 @@ The result of these few clicks is that **Google Meet** is started, with a screen
 ## Installation
 
 ### 1. Reminder configuration
-Create a recurring Google Calendar event (each workday at e.g. 17:00) with a title e.g. *"Nenad - Daily video"* and add Google Meet to this scheduled meeting.
+Create a recurring Google Calendar event (each workday at e.g. 17:00) with a title e.g. *"Nenad - Daily video"* and add Google Meet to this initially scheduled meeting with `"Add Google Meet video conferencing"`.
 
 ![Calendar Event](img/calendar-event.png)
 
