@@ -7,7 +7,7 @@ javascript: (() => {
   /**
    * Record if Google Meet title includes "recordOnlyIfIncludes" value or leave empty for any
    * Turn Camera ON/OFF if "useCamera" is true/false (default is true => ON)
-   * Necessary to have "var" for the configuration, because they may be defined in loader.js
+   * Necessary to have "var" for the configuration, because they may be defined in addon.js
    */
 
   const clickElement = (element) => {

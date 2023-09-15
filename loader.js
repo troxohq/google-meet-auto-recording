@@ -3,7 +3,7 @@ var useCamera = true;
 /**
  * Auto record if Google Meet title includes "recordOnlyIfIncludes" value
  * Turn Camera ON/OFF if "useCamera" is true/false
- * Necessary to have "var" for the configuration, because we need to redefine them in process.js
+ * Necessary to have "var" for the configuration, because we need to redefine them in bookmark.js
  */
 function startAutoRecording() {
   if (!document.title.includes(recordOnlyIfIncludes)) {
@@ -31,12 +31,12 @@ function loadAutoRecordingScript() {
   if (!requestInProgress) {
     /* Dynamically load the automation recording script */
     requestInProgress = true;
-    const scriptURL = 'https://raw.githubusercontent.com/troxohq/google-meet-auto-recording/main/process.js';
+    const scriptURL = 'https://raw.githubusercontent.com/troxohq/google-meet-auto-recording/main/bookmark.js';
 
     fetch(scriptURL).then(response => response.text())
     .then(scriptCode => {
       const scriptElement = document.createElement('script');
-      /* Necessary to have "var" for the configuration, because we need to redefine them in process.js */
+      /* Necessary to have "var" for the configuration, because we need to redefine them in bookmark.js */
       scriptElement.textContent = scriptCode.replace(
         'javascript: (() => {',
         'javascript: (() => {'+
