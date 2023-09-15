@@ -1,7 +1,7 @@
 javascript: (() => {
   var recordOnlyIfIncludes = ('undefined' == typeof(recordOnlyIfIncludes)) ? '' : recordOnlyIfIncludes;
   var useCamera = ('undefined' === typeof(useCamera)) ? true : useCamera;
-  var scriptType = `=== ${('undefined' === typeof(script)) ? 'Bookmark' : scriptType}: ===`;
+  var scriptType = `=== ${('undefined' === typeof(scriptType)) ? 'Bookmark' : scriptType}: ===`;
 
   console.log(scriptType, 'Auto-recording trigger - LOADED', `recordOnlyIfIncludes: "${recordOnlyIfIncludes}"`, `useCamera: "${useCamera}"`);
 
