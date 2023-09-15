@@ -1,12 +1,13 @@
 javascript: (() => {
-  let recordOnlyIfIncludes = ('undefined' == typeof(recordOnlyIfIncludes)) ? '' : recordOnlyIfIncludes;
-  let useCamera = ('undefined' === typeof(useCamera)) ? true : useCamera;
+  var recordOnlyIfIncludes = ('undefined' == typeof(recordOnlyIfIncludes)) ? '' : recordOnlyIfIncludes;
+  var useCamera = ('undefined' === typeof(useCamera)) ? true : useCamera;
 
   console.log('=== Process: ===', 'Auto-recording trigger - LOADED');
 
   /**
    * Record if Google Meet title includes "recordOnlyIfIncludes" value or leave empty for any
    * Turn Camera ON/OFF if "useCamera" is true/false (default is true => ON)
+	 * Necessary to have "var", because "let" does not work with typeof undefined-check from loader.js
    */
 
   const clickElement = (element) => {
