@@ -1,5 +1,6 @@
 var recordOnlyIfIncludes = 'Daily video';
 var useCamera = true;
+var scriptType = '=== Addon: ===';
 /**
  * Auto record if Google Meet title includes "recordOnlyIfIncludes" value
  * Turn Camera ON/OFF if "useCamera" is true/false
@@ -9,10 +10,10 @@ function startAutoRecording() {
   if (!document.title.includes(recordOnlyIfIncludes)) {
     /* Wait for 5s that "recordOnlyIfIncludes" appears */
     if ((Date.now() - start) < 10000) {
-      console.log('=== Addon ===', `Waiting for "${recordOnlyIfIncludes}" title...`);
+      console.log(scriptType, `Waiting for "${recordOnlyIfIncludes}" title...`);
       setTimeout(startAutoRecording, 500);
     } else {
-      console.log('=== Addon ===', `Missing "${recordOnlyIfIncludes}" title. Auto recording cancelled!`);
+      console.log(scriptType, `Missing "${recordOnlyIfIncludes}" title. Auto recording cancelled!`);
     }
   } else {
     /* Meeting Title elibible for Auto-recording script  */
@@ -20,14 +21,14 @@ function startAutoRecording() {
   }
 }
 
-console.log('=== Addon ===', 'Auto recording check started');
+console.log(scriptType, 'Auto recording check started');
 let requestInProgress = false;
 const start = Date.now();
 startAutoRecording();
 
 /* Add content of the GitHub Auto-recording JS script to the HTML BODY tag (at the end) */
 function loadAutoRecordingScript() {
-  console.log('=== Addon ===', 'Auto-recording script initiated');
+  console.log(scriptType, 'Auto-recording script initiated');
   if (!requestInProgress) {
     /* Dynamically load the automation recording script */
     requestInProgress = true;
@@ -45,16 +46,16 @@ function loadAutoRecordingScript() {
         `  var scriptType = 'Script';`
       );
       document.body.appendChild(scriptElement);
-      console.log('=== Addon ===', 'Auto-recording script completed!');
+      console.log(scriptType, 'Auto-recording script completed!');
     })
     .catch(error => {
-      console.error('=== Addon ===', 'Auto-recording script ERROR:', error);
+      console.error(scriptType, 'Auto-recording script ERROR:', error);
     })
     .finally(() => {
       requestInProgress = false;
     });
-    console.log('=== Addon ===', 'Auto-recording script started');
+    console.log(scriptType, 'Auto-recording script started');
   } else {
-    console.log('=== Addon ===', 'Auto-recording script in progress...');
+    console.log(scriptType, 'Auto-recording script in progress...');
   }
 }
