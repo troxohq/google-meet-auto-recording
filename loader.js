@@ -5,27 +5,29 @@ var useCamera = true;
  * Turn Camera ON/OFF if "useCamera" is true/false
  * Necessary to have "var", because "let" does not work with typeof-undefined check in process.js
  */
-
-let requestInProgress = false;
-const start = Date.now();
-console.log(`=== Auto recording check started ===`);
 function startAutoRecording() {
   if (!document.title.includes(recordOnlyIfIncludes)) {
     /* Wait for 5s that "recordOnlyIfIncludes" appears */
     if ((Date.now() - start) < 10000) {
-      console.log(`=== Waiting for "${recordOnlyIfIncludes}" title... ===`);
-      setTimeout(startAutoRecording, 100);
+      console.log('=== Loader ===', `Waiting for "${recordOnlyIfIncludes}" title...`);
+      setTimeout(startAutoRecording, 500);
     } else {
-      console.log(`=== Missing "${recordOnlyIfIncludes}" title. Auto recording cancelled ===`);
+      console.log('=== Loader ===', `Missing "${recordOnlyIfIncludes}" title. Auto recording cancelled!`);
     }
   } else {
-    loadAutoRecordingScript();
+    /* Meeting Title elibible for Auto-recording script  */
+		loadAutoRecordingScript();
   }
 }
-setTimeout(startAutoRecording, 200);
 
+console.log('=== Loader ===', 'Auto recording check started');
+let requestInProgress = false;
+const start = Date.now();
+startAutoRecording();
+
+/* Add content of the GitHub Auto-recording JS script to the HTML BODY tag (at the end) */
 function loadAutoRecordingScript() {
-  console.log('=== Loading of auto-recording script initiated! ===');
+  console.log('=== Loader ===', 'Auto-recording script initiated');
   if (!requestInProgress) {
     /* Dynamically load the automation recording script */
     requestInProgress = true;
@@ -36,16 +38,16 @@ function loadAutoRecordingScript() {
       const scriptElement = document.createElement('script');
       scriptElement.textContent = scriptCode;//`const recordOnlyIfIncludes = '${recordOnlyIfIncludes}'; ${response}`;
       document.body.appendChild(scriptElement);
-      console.log('=== Loading of auto-recording script completed! ===');
+      console.log('=== Loader ===', 'Auto-recording script completed!');
     })
     .catch(error => {
-      console.error('== Loading of auto-recording script ERROR:', error);
+      console.error('=== Loader ===', 'Auto-recording script ERROR:', error);
     })
     .finally(() => {
       requestInProgress = false;
     });
-    console.log('=== Loading of auto-recording script started! ===');
+    console.log('=== Loader ===', 'Auto-recording script started');
   } else {
-    console.log('=== Loading of auto-recording script... ===');
+    console.log('=== Loader ===', 'Auto-recording script in progress...');
   }
 }

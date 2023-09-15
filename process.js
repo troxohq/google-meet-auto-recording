@@ -1,12 +1,12 @@
 javascript: (() => {
   var recordOnlyIfIncludes = ('undefined' == typeof(recordOnlyIfIncludes)) ? '' : recordOnlyIfIncludes;
-	var useCamera = ('undefined' === typeof(useCamera)) ? true : useCamera;
+  var useCamera = ('undefined' === typeof(useCamera)) ? true : useCamera;
 
-	console.log('=== Process: ===', 'LOADED');
+  console.log('=== Process: ===', 'LOADED');
 
-	/**
+  /**
    * Record if Google Meet title includes "recordOnlyIfIncludes" value or leave empty for any
-	 * Turn Camera ON/OFF if "useCamera" is true/false (default is true => ON)
+   * Turn Camera ON/OFF if "useCamera" is true/false (default is true => ON)
    * Necessary to have "var", because "let" does not work with typeof undefined-check
    */
 
@@ -38,14 +38,16 @@ javascript: (() => {
       }
       },
     'Camera ON': {
-      isCompleted: () => !useCamera || document.body.innerText.includes('Turn off camera'),
+      disabled: !useCamera,
+      isCompleted: () => document.body.innerText.includes('Turn off camera'),
       clickExecuteOn: () => {
         const btnsCamera = document.querySelectorAll('button[role="button"][aria-label*="Turn on camera"]');
         return btnsCamera[0];
       }
     },
     'Camera OFF': {
-      isCompleted: () => useCamera || document.body.innerText.includes('Turn on camera'),
+      disabled: useCamera,
+      isCompleted: () => document.body.innerText.includes('Turn on camera'),
       clickExecuteOn: () => {
         const btnsCamera = document.querySelectorAll('button[role="button"][aria-label*="Turn off camera"]');
         return btnsCamera[0];
@@ -112,21 +114,22 @@ javascript: (() => {
     }
   };
 
-	console.log('=== Process: ===', 'INITIALIZED');
+  console.log('=== Process: ===', 'INITIALIZED');
 
   /* Trigger recording only for Google Meet URLs */
   if (document.location.href.includes('meet.google.com')) {
     const start = Date.now();
-    /* Start an interval to execute for actions from a configuration list  */
-    const intervalActionExecute = setInterval(() => {
+
+    /* Execute actions from a configuration list  */
+    function actionExecute() {
       try {
         /* Record if Google Meet title includes "recordOnlyIfIncludes" value if not empty */
         if (recordOnlyIfIncludes && !document.title.includes(recordOnlyIfIncludes)) {
           /* Wait for 5s that "recordOnlyIfIncludes" appears */
           if ((Date.now() - start) < 5000) {
             console.log('=== Process: ===', `Waiting for "${recordOnlyIfIncludes}" title...`);
+            setTimeout(actionExecute, 200);
           } else {
-            clearInterval(intervalActionExecute);
             console.error('=== Process: ===', `Missing "${recordOnlyIfIncludes}" title. Auto recording cancelled`);
           }
           return;
@@ -135,34 +138,43 @@ javascript: (() => {
         /* Start only to initially Join the meeting */
         if (document.body.innerText.includes('Rejoin')
          || document.body.innerText.includes('New meeting')) {
-          clearInterval(intervalActionExecute);
-
           console.error('=== Process: ===', `Cannot rejoin or start a new meeting. Auto recording cancelled`);
-					return;
+          return;
         }
 
-        console.log('=== Process: ===', `STARTED`);
         /* Execute action sequentially - previous action is finished if removed from the configuration */
         const action = Object.keys(configActions)[0];
         if (action) {
           /* Start the action handler from the next one in the execution list */
           const configAction = configActions[action];
           if (!configAction.isCompleted()) {
-            /* If action is not completed and is ready, trigger the execution on returned element(s) */
-            let elements = configAction.clickExecuteOn();
-            /* Make an array out of returned elements if not already */
-            elements = Array.isArray(elements) ? elements : [elements];
-            elements.forEach(element => {
-              /* An element from an array can be empty (null) */
-              clickElement(element);
-              console.log('=== Process: ===', action, '-', element ? `"${element.innerText}" clicked` : 'waiting');
-            });
+            if (!configAction.inProgress) {
+              configAction.inProgress = true;
+              console.log('=== Process: ===', action, `Started`);
+              /* If action is not completed and is ready, trigger the execution on returned element(s) */
+              let elements = configAction.clickExecuteOn();
+              /* Make an array out of returned elements if not already */
+              elements = Array.isArray(elements) ? elements : [elements];
+              elements.forEach(element => {
+                /* An element from an array can be empty (null) */
+                clickElement(element);
+                console.log('=== Process: ===', action, element ? `"${element.innerText}" clicked` : '(no element) executing...');
+              });
+              console.log('=== Process: ===', action, `Executing...`);
+            } else {
+              console.log('=== Process: ===', action, `In progress...`);
+            }
           } else {
-            /* Remove completed actions from an execution list */
+            /* Remove completed or disabled actions from an execution list */
             delete configActions[action];
-            console.log('=== Process: ===', action, '-', 'completed');
+            if (!configAction.disabled) {
+              console.log('=== Process: ===', action, 'Completed!');
+            }
           }
+          setTimeout(actionExecute, 200);
         } else {
+          console.log('=== Process: ===', `Auto-recording trigger - Finalizing...`);
+
           const buttons = document.querySelectorAll('button');
 
           /* Close the recording sidebar */
@@ -188,16 +200,21 @@ javascript: (() => {
           && !document.body.innerText.includes('Select the language for captions')
           && !document.body.innerText.includes('infinity mirror')
           && !document.body.innerText.includes('Make sure everyone is ready')) {
-            clearInterval(intervalActionExecute);
+            console.log('=== Process: ===', 'Auto-recording trigger - FINISHED!');
+          } else {
+            console.log('=== Process: ===', `Auto-recording trigger - not finished yet...`);
+            /* Repeat execute actions from a configuration list  */
+            setTimeout(actionExecute, 200);
           }
-
-          console.log('=== Process: ===', 'FINISHED');
         }
       } catch (error) {
-        console.error('=== Process: ===', error);
-        clearInterval(intervalActionExecute);
+        console.error('=== Process: ===', 'Auto-recording trigger - ERROR!', error);
       }
-    }, 200);
+    }
+
+    console.log('=== Process: ===', 'Auto-recording trigger - STARTED');
+    /* Start to execute actions from a configuration list  */
+    actionExecute();
   } else {
       console.error('Process:', '=== URL is not a Google Meet (https://meet.google.com) ===')
   }
