@@ -147,7 +147,11 @@ javascript: (() => {
         if (action) {
           /* Start the action handler from the next one in the execution list */
           const configAction = configActions[action];
-          if (!configAction.isCompleted()) {
+          if (configAction.disabled) {
+            /* Remove disabled actions from an execution list */
+            delete configActions[action];
+            console.log('=== Process: ===', action, 'Disabled!');
+          } else if (!configAction.isCompleted()) {
             if (!configAction.inProgress) {
               configAction.inProgress = true;
               console.log('=== Process: ===', action, `Started`);
@@ -167,9 +171,7 @@ javascript: (() => {
           } else {
             /* Remove completed or disabled actions from an execution list */
             delete configActions[action];
-            if (!configAction.disabled) {
-              console.log('=== Process: ===', action, 'Completed!');
-            }
+            console.log('=== Process: ===', action, 'Completed!');
           }
           setTimeout(actionExecute, 200);
         } else {
