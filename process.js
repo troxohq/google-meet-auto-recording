@@ -2,7 +2,7 @@ javascript: (() => {
   var recordOnlyIfIncludes = ('undefined' == typeof(recordOnlyIfIncludes)) ? '' : recordOnlyIfIncludes;
   var useCamera = ('undefined' === typeof(useCamera)) ? true : useCamera;
 
-  console.log('=== Process: ===', 'LOADED');
+  console.log('=== Process: ===', 'Auto-recording trigger - LOADED');
 
   /**
    * Record if Google Meet title includes "recordOnlyIfIncludes" value or leave empty for any
@@ -53,7 +53,7 @@ javascript: (() => {
         return btnsCamera[0];
       }
     },
-    'Present Now': {
+    'Share Screen': {
       isCompleted: () => document.body.innerText.includes('You are presenting'),
       clickExecuteOn: () => {
         const buttons = document.querySelectorAll('button[role="button"][aria-label]');
@@ -61,7 +61,7 @@ javascript: (() => {
         return btnsPresentNow[0];
       }
     },
-    'More Options': {
+    'More Options (for recording)': {
       isCompleted: () => document.body.innerText.includes('Manage recording')
         || configActions['Manage Recording'].isCompleted(),
       clickExecuteOn: () => {
@@ -114,7 +114,7 @@ javascript: (() => {
     }
   };
 
-  console.log('=== Process: ===', 'INITIALIZED');
+  console.log('=== Process: ===', 'Auto-recording trigger - INITIALIZED');
 
   /* Trigger recording only for Google Meet URLs */
   if (document.location.href.includes('meet.google.com')) {
