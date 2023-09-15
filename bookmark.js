@@ -1,8 +1,9 @@
 javascript: (() => {
   var recordOnlyIfIncludes = ('undefined' == typeof(recordOnlyIfIncludes)) ? '' : recordOnlyIfIncludes;
   var useCamera = ('undefined' === typeof(useCamera)) ? true : useCamera;
+  var scriptType = `=== ${('undefined' === typeof(script)) ? 'Bookmark' : scriptType}: ===`;
 
-  console.log('=== Process: ===', 'Auto-recording trigger - LOADED', `recordOnlyIfIncludes: "${recordOnlyIfIncludes}"`, `useCamera: "${useCamera}"`);
+  console.log(scriptType, 'Auto-recording trigger - LOADED', `recordOnlyIfIncludes: "${recordOnlyIfIncludes}"`, `useCamera: "${useCamera}"`);
 
   /**
    * Record if Google Meet title includes "recordOnlyIfIncludes" value or leave empty for any
@@ -114,7 +115,7 @@ javascript: (() => {
     }
   };
 
-  console.log('=== Process: ===', 'Auto-recording trigger - INITIALIZED');
+  console.log(scriptType, 'Auto-recording trigger - INITIALIZED');
 
   /* Trigger recording only for Google Meet URLs */
   if (document.location.href.includes('meet.google.com')) {
@@ -127,10 +128,10 @@ javascript: (() => {
         if (recordOnlyIfIncludes && !document.title.includes(recordOnlyIfIncludes)) {
           /* Wait for 5s that "recordOnlyIfIncludes" appears */
           if ((Date.now() - start) < 5000) {
-            console.log('=== Process: ===', `Waiting for "${recordOnlyIfIncludes}" title...`);
+            console.log(scriptType, `Waiting for "${recordOnlyIfIncludes}" title...`);
             setTimeout(actionExecute, 200);
           } else {
-            console.error('=== Process: ===', `Missing "${recordOnlyIfIncludes}" title. Auto recording cancelled`);
+            console.error(scriptType, `Missing "${recordOnlyIfIncludes}" title. Auto recording cancelled`);
           }
           return;
         }
@@ -138,7 +139,7 @@ javascript: (() => {
         /* Start only to initially Join the meeting */
         if (document.body.innerText.includes('Rejoin')
          || document.body.innerText.includes('New meeting')) {
-          console.error('=== Process: ===', `Cannot rejoin or start a new meeting. Auto recording cancelled`);
+          console.error(scriptType, `Cannot rejoin or start a new meeting. Auto recording cancelled`);
           return;
         }
 
@@ -150,11 +151,11 @@ javascript: (() => {
           if (configAction.disabled) {
             /* Remove disabled actions from an execution list */
             delete configActions[action];
-            console.log('=== Process: ===', action, 'Disabled!');
+            console.log(scriptType, action, 'Disabled!');
           } else if (!configAction.isCompleted()) {
             if (!configAction.inProgress) {
               configAction.inProgress = true;
-              console.log('=== Process: ===', action, `Started`);
+              console.log(scriptType, action, `Started`);
               /* If action is not completed and is ready, trigger the execution on returned element(s) */
               let elements = configAction.clickExecuteOn();
               /* Make an array out of returned elements if not already */
@@ -162,20 +163,20 @@ javascript: (() => {
               elements.forEach(element => {
                 /* An element from an array can be empty (null) */
                 clickElement(element);
-                console.log('=== Process: ===', action, element ? `"${element.innerText}" clicked` : '(no element) executing...');
+                console.log(scriptType, action, element ? `"${element.innerText}" clicked` : '(no element) executing...');
               });
-              console.log('=== Process: ===', action, `Executing...`);
+              console.log(scriptType, action, `Executing...`);
             } else {
-              console.log('=== Process: ===', action, `In progress...`);
+              console.log(scriptType, action, `In progress...`);
             }
           } else {
             /* Remove completed or disabled actions from an execution list */
             delete configActions[action];
-            console.log('=== Process: ===', action, 'Completed!');
+            console.log(scriptType, action, 'Completed!');
           }
           setTimeout(actionExecute, 200);
         } else {
-          console.log('=== Process: ===', `Auto-recording trigger - Finalizing...`);
+          console.log(scriptType, `Auto-recording trigger - Finalizing...`);
 
           const buttons = document.querySelectorAll('button');
 
@@ -202,22 +203,22 @@ javascript: (() => {
           && !document.body.innerText.includes('Select the language for captions')
           && !document.body.innerText.includes('infinity mirror')
           && !document.body.innerText.includes('Make sure everyone is ready')) {
-            console.log('=== Process: ===', 'Auto-recording trigger - FINISHED!');
+            console.log(scriptType, 'Auto-recording trigger - FINISHED!');
           } else {
-            console.log('=== Process: ===', `Auto-recording trigger - not finished yet...`);
+            console.log(scriptType, `Auto-recording trigger - not finished yet...`);
             /* Repeat execute actions from a configuration list  */
             setTimeout(actionExecute, 200);
           }
         }
       } catch (error) {
-        console.error('=== Process: ===', 'Auto-recording trigger - ERROR!', error);
+        console.error(scriptType, 'Auto-recording trigger - ERROR!', error);
       }
     }
 
-    console.log('=== Process: ===', 'Auto-recording trigger - STARTED');
+    console.log(scriptType, 'Auto-recording trigger - STARTED');
     /* Start to execute actions from a configuration list  */
     actionExecute();
   } else {
-      console.error('Process:', '=== URL is not a Google Meet (https://meet.google.com) ===')
+      console.error(scriptType, 'URL is not a Google Meet (https://meet.google.com)')
   }
 })();

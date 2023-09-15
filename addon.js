@@ -9,10 +9,10 @@ function startAutoRecording() {
   if (!document.title.includes(recordOnlyIfIncludes)) {
     /* Wait for 5s that "recordOnlyIfIncludes" appears */
     if ((Date.now() - start) < 10000) {
-      console.log('=== Loader ===', `Waiting for "${recordOnlyIfIncludes}" title...`);
+      console.log('=== Addon ===', `Waiting for "${recordOnlyIfIncludes}" title...`);
       setTimeout(startAutoRecording, 500);
     } else {
-      console.log('=== Loader ===', `Missing "${recordOnlyIfIncludes}" title. Auto recording cancelled!`);
+      console.log('=== Addon ===', `Missing "${recordOnlyIfIncludes}" title. Auto recording cancelled!`);
     }
   } else {
     /* Meeting Title elibible for Auto-recording script  */
@@ -20,14 +20,14 @@ function startAutoRecording() {
   }
 }
 
-console.log('=== Loader ===', 'Auto recording check started');
+console.log('=== Addon ===', 'Auto recording check started');
 let requestInProgress = false;
 const start = Date.now();
 startAutoRecording();
 
 /* Add content of the GitHub Auto-recording JS script to the HTML BODY tag (at the end) */
 function loadAutoRecordingScript() {
-  console.log('=== Loader ===', 'Auto-recording script initiated');
+  console.log('=== Addon ===', 'Auto-recording script initiated');
   if (!requestInProgress) {
     /* Dynamically load the automation recording script */
     requestInProgress = true;
@@ -41,19 +41,20 @@ function loadAutoRecordingScript() {
         'javascript: (() => {',
         'javascript: (() => {'+
         `  var recordOnlyIfIncludes = '${recordOnlyIfIncludes}';` +
-        `  var useCamera = ${useCamera};`
+        `  var useCamera = ${useCamera};` +
+        `  var scriptType = 'Script';`
       );
       document.body.appendChild(scriptElement);
-      console.log('=== Loader ===', 'Auto-recording script completed!');
+      console.log('=== Addon ===', 'Auto-recording script completed!');
     })
     .catch(error => {
-      console.error('=== Loader ===', 'Auto-recording script ERROR:', error);
+      console.error('=== Addon ===', 'Auto-recording script ERROR:', error);
     })
     .finally(() => {
       requestInProgress = false;
     });
-    console.log('=== Loader ===', 'Auto-recording script started');
+    console.log('=== Addon ===', 'Auto-recording script started');
   } else {
-    console.log('=== Loader ===', 'Auto-recording script in progress...');
+    console.log('=== Addon ===', 'Auto-recording script in progress...');
   }
 }
