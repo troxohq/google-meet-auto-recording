@@ -36,9 +36,9 @@ function loadAutoRecordingScript() {
     fetch(scriptURL).then(response => response.text())
     .then(scriptCode => {
       const scriptElement = document.createElement('script');
-			/* Necessary to have "var" for the configuration, because we need to redefine them in process.js */
+      /* Necessary to have "var" for the configuration, because we need to redefine them in process.js */
       scriptElement.textContent = scriptCode.replace(
-				'javascript: (() => {',
+        'javascript: (() => {',
         'javascript: (() => {'+
         `  var recordOnlyIfIncludes = '${recordOnlyIfIncludes}';` +
         `  var useCamera = ${useCamera};`
