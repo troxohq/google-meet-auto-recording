@@ -1,8 +1,9 @@
-let recordOnlyIfIncludes = 'Daily video';
-let useCamera = true;
+var recordOnlyIfIncludes = 'Daily video';
+var useCamera = true;
 /**
  * Auto record if Google Meet title includes "recordOnlyIfIncludes" value
  * Turn Camera ON/OFF if "useCamera" is true/false
+ * Necessary to have "var" for the configuration, because we need to redefine them in process.js
  */
 function startAutoRecording() {
   if (!document.title.includes(recordOnlyIfIncludes)) {
@@ -35,11 +36,12 @@ function loadAutoRecordingScript() {
     fetch(scriptURL).then(response => response.text())
     .then(scriptCode => {
       const scriptElement = document.createElement('script');
+			/* Necessary to have "var" for the configuration, because we need to redefine them in process.js */
       scriptElement.textContent = scriptCode.replace(
 				'javascript: (() => {',
         'javascript: (() => {'+
-        `  let recordOnlyIfIncludes = '${recordOnlyIfIncludes}';` +
-        `  let useCamera = ${useCamera};`
+        `  var recordOnlyIfIncludes = '${recordOnlyIfIncludes}';` +
+        `  var useCamera = ${useCamera};`
       );
       document.body.appendChild(scriptElement);
       console.log('=== Loader ===', 'Auto-recording script completed!');
