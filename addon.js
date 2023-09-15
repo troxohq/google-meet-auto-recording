@@ -21,6 +21,7 @@ function startAutoRecording() {
   }
 }
 
+/* Start the loading of Auto-recording script from bookmark.js  */
 console.log(scriptType, 'Auto recording check started');
 let requestInProgress = false;
 const start = Date.now();
