@@ -1,9 +1,13 @@
 javascript: (() => {
-  let recordOnlyIfIncludes = ('undefined' === typeof(recordOnlyIfIncludes)) ? '' : recordOnlyIfIncludes;
-	let useCamera = ('undefined' === typeof(useCamera)) ? true : useCamera;
-  /**
+  var recordOnlyIfIncludes = ('undefined' == typeof(recordOnlyIfIncludes)) ? '' : recordOnlyIfIncludes;
+	var useCamera = ('undefined' === typeof(useCamera)) ? true : useCamera;
+
+	console.log('=== Process: ===', 'LOADED');
+
+	/**
    * Record if Google Meet title includes "recordOnlyIfIncludes" value or leave empty for any
 	 * Turn Camera ON/OFF if "useCamera" is true/false (default is true => ON)
+   * Necessary to have "var", because "let" does not work with typeof undefined-check
    */
 
   const clickElement = (element) => {
@@ -108,6 +112,8 @@ javascript: (() => {
     }
   };
 
+	console.log('=== Process: ===', 'INITIALIZED');
+
   /* Trigger recording only for Google Meet URLs */
   if (document.location.href.includes('meet.google.com')) {
     const start = Date.now();
@@ -117,11 +123,11 @@ javascript: (() => {
         /* Record if Google Meet title includes "recordOnlyIfIncludes" value if not empty */
         if (recordOnlyIfIncludes && !document.title.includes(recordOnlyIfIncludes)) {
           /* Wait for 5s that "recordOnlyIfIncludes" appears */
-          if ((Date.now() - start) > 5000) {
-            clearInterval(intervalActionExecute);
-            console.log(`Missing "${recordOnlyIfIncludes}" title. Auto recording cancelled.`);
+          if ((Date.now() - start) < 5000) {
+            console.log('=== Process: ===', `Waiting for "${recordOnlyIfIncludes}" title...`);
           } else {
-            console.log(`Waiting for "${recordOnlyIfIncludes}" title...`);
+            clearInterval(intervalActionExecute);
+            console.error('=== Process: ===', `Missing "${recordOnlyIfIncludes}" title. Auto recording cancelled`);
           }
           return;
         }
@@ -131,11 +137,11 @@ javascript: (() => {
          || document.body.innerText.includes('New meeting')) {
           clearInterval(intervalActionExecute);
 
-          console.log(`Cannot rejoin or start a new meeting. Auto recording cancelled.`);
-          return;
+          console.error('=== Process: ===', `Cannot rejoin or start a new meeting. Auto recording cancelled`);
+					return;
         }
 
-        console.log('--------------------------');
+        console.log('=== Process: ===', `STARTED`);
         /* Execute action sequentially - previous action is finished if removed from the configuration */
         const action = Object.keys(configActions)[0];
         if (action) {
@@ -149,12 +155,12 @@ javascript: (() => {
             elements.forEach(element => {
               /* An element from an array can be empty (null) */
               clickElement(element);
-              console.log(action, '-', element ? `"${element.innerText}" clicked` : 'waiting');
+              console.log('=== Process: ===', action, '-', element ? `"${element.innerText}" clicked` : 'waiting');
             });
           } else {
             /* Remove completed actions from an execution list */
             delete configActions[action];
-            console.log(action, '-', 'completed');
+            console.log('=== Process: ===', action, '-', 'completed');
           }
         } else {
           const buttons = document.querySelectorAll('button');
@@ -185,14 +191,14 @@ javascript: (() => {
             clearInterval(intervalActionExecute);
           }
 
-          console.log('======== FINISHED ========');
+          console.log('=== Process: ===', 'FINISHED');
         }
       } catch (error) {
-        console.error(error);
+        console.error('=== Process: ===', error);
         clearInterval(intervalActionExecute);
       }
-    }, 100);
+    }, 200);
   } else {
-      console.log('======== URL is not a Google Meet (https://meet.google.com) ========')
+      console.error('Process:', '=== URL is not a Google Meet (https://meet.google.com) ===')
   }
 })();
