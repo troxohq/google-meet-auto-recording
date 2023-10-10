@@ -16,8 +16,8 @@ The result of these few clicks is that **Google Meet** is started, with a screen
 2. `User` opens the meeting from a **Google Calendar** event *"[Name] - Daily video"* with `"Join with Google Meet"`
     1. Optionally, add an additional recap for the particular day to the event title
 3. The **Google Meet** event and recording is started with:
-    1. **Google Chrome Bookmark** (manually by the `User`) via [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js)
-    2. **Google Chrome Addon** (automatically) via [loader.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/loader.js)
+    1. **Google Chrome Bookmark** (manually by the `User`) via [bookmark.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/bookmark.js)
+    2. **Google Chrome Addon** (automatically) via [addon.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/addon.js)
 4. The User joins the **Google Meet** event and recording and transcribing are automatically started
    1. The User selects which screen to present in the **Google Meet**
 5. **Google Meet** stores the recording and transcription files to **Google Drive**
@@ -36,15 +36,15 @@ Create a recurring Google Calendar event (each workday at e.g. 17:00) with a tit
 ### 2. Recording automation
 
 #### Option 1: Manually start any recording
-Add the content of the script [process.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js) to the
+Add the content of the script [bookmark.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/bookmark.js) to the
 **Google Chrome** bookmark (i.e. bookmarklet)
-  * Leave `autoStartRecordingFor` as `undefined` at [process.js#L2](https://github.com/troxohq/google-meet-auto-recording/blob/main/process.js#L2) to allow recording of any Google Calendar event, not only e.g. *"Daily video"*
+  * Leave `recordOnlyIfIncludes` as `undefined` at [bookmark.js#L2](https://github.com/troxohq/google-meet-auto-recording/blob/main/bookmark.js#L2) to allow recording of any Google Calendar event, not only e.g. *"Daily video"*
 
 ![Chrome Bookmark](img/chrome-bookmark.png)
 
 #### Option 2: Automatically start a *"Daily video"* recording
-Add the content of the script [loader.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/loader.js) to the **Chrome Addon** that injects and executes JavaScript code:
-  * Configure `autoStartRecordingFor` at [loader.js#L1](https://github.com/troxohq/google-meet-auto-recording/blob/main/loader.js#L1) to match the Google Calendar event title, e.g. *"Daily video"*
+Add the content of the script [addon.js](https://github.com/troxohq/google-meet-auto-recording/blob/main/addon.js) to the **Chrome Addon** that injects and executes JavaScript code:
+  * Configure `recordOnlyIfIncludes` at [addon.js#L1](https://github.com/troxohq/google-meet-auto-recording/blob/main/addon.js#L1) to match the Google Calendar event title, e.g. *"Daily video"*
   * Addons that can be used:
      * [Chrome Addon - User JavaScript and CSS](https://chrome.google.com/webstore/detail/user-javascript-and-css/nbhcbdghjpllgmfilhnhkllmkecfmpld)
      * [JScript tricks](https://chrome.google.com/webstore/detail/jscript-tricks/odialddippdmebbfbflcneemfdglimod)
@@ -60,7 +60,7 @@ The **Google Meet** video and transcription recordings are stored in a `User` **
 ![](img/google-drive-folder-permissions.png)
 
 ### 4. Slack notification receiver
-Configure **Slack** `#channel` => "Integrations" => "Send emails to this channel" to receive the emails to pass them through as messages to a channel.
+Configure (if not already defined) **Slack** `#channel` => "Integrations" => "Send emails to this channel" to receive the emails to pass them through as messages to a channel.
 
 ![](img/slack-integrations-emails.png)
 
@@ -75,9 +75,9 @@ Configure Gmail to forward the recording (and transcription) emails to Slack inb
 2. Click `Create a new filter`
 3. Set `From` to "meet-recordings-noreply@google.com"
 4. Set `Subject` to "Daily video"
-5. Click `Continue`
+5. Click `Create filter`
 6. Set `Forward it to` to the email address connected to the **Slack** `#channel`
-7. Check optionally `Skip the Inbox (Archive it)`, `Mark as read`, or `Apply the label:`
+7. Optionally  check `Mark as read` and/or both `Skip the Inbox (Archive it)`, and `Apply the label:` to organize these emails
 
 ![](img/gmail-filter-source.png)
 
@@ -88,7 +88,6 @@ Configure Gmail to forward the recording (and transcription) emails to Slack inb
 ![](img/gmail-forwarding-confirmation.png)
 
 ![](img/gmail-forwarding-verification.png)
-
 
 The target forwarding email needs to be approved by clicking the link in from the confirmation message sent to **Slack** `#channel`.
 
